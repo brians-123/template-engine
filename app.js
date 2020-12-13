@@ -11,6 +11,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 //Ask for manager info
+// function askMgrQuestions (){
+
+// }
 const mgrQuestions = [
   {
     type: "input",
@@ -43,6 +46,9 @@ const mgrQuestions = [
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
+// function askEngQuestions (){
+
+// }
 const engQuestions = [
   {
     type: "name",
@@ -67,6 +73,9 @@ const engQuestions = [
 ];
 
 //intern questions
+// function askInternQuestions (){
+
+// }
 const intQuestions = [
   {
     type: "name",
