@@ -10,30 +10,39 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const employees = [];
 //Ask for manager info
 // function askMgrQuestions (){
 
 // }
+
+// Name?
+// Id?
+// email?
+// Role?
+//   dependent on what's give, office, git, school
+// Add another?
+
 const mgrQuestions = [
   {
     type: "input",
-    message: "What is the name of your manager?",
+    message: "What is the manager's name?",
     name: "name",
   },
   {
     type: "input",
-    message: "What is your manager's id?",
+    message: "What is manager's id?",
     name: "id",
   },
   {
     type: "input",
-    message: "What is your manager's email?",
+    message: "What is the manager's email?",
     name: "email",
   },
   {
     type: "input",
-    message: "What is your manager's office number?",
-    name: "phone",
+    message: "What is the manager's office number?",
+    name: "officeNumber",
   },
   {
     type: "list",
@@ -104,27 +113,27 @@ inquirer
   .prompt(mgrQuestions)
 
   .then((data) => {
-    const doTheThings = "something";
+    // console.log(data.officeNumber);
 
-    //i'll use this after defined
-    // render(data);
-
+    employee = new Manager(data.name, data.id, data.email, data.officeNumber);
     // After the user has input all employees desired, call the `render` function (required
     // above) and pass in an array containing all employee objects; the `render` function will
     // generate and return a block of HTML including templated divs for each employee!
+    employees.push(employee);
+    // render(employees);
+    // console.log(employees);
+    const renderStuff = render(employees);
+    fs.writeFile("team.html", renderStuff, "utf8", (err) =>
+      err
+        ? console.log(err)
+        : console.log("You have successfully generated a new team site!")
+    );
   });
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
-
-//snippet of code from an earlier project I can modify
-// fs.writeFile("./output/README.md", readMeText, (err) =>
-// err
-//   ? console.log(err)
-//   : console.log("You have successfully created a new Readme!")
-// );
 
 // HINT: each employee type (manager, engineer, or intern) has slightly different
 // information; write your code to ask different questions via inquirer depending on
