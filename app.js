@@ -10,6 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//the first role entered is assumed to be a manager
+let role = "manager";
+
 const employees = [];
 //Ask for manager info
 // function askMgrQuestions (){
@@ -32,7 +35,7 @@ const genericQuestions = [
   },
   {
     type: "input",
-    message: "What is employee's id?",
+    message: "What is the employee's id?",
     name: "id",
   },
   {
@@ -171,10 +174,18 @@ const intQuestions = [
 //start inquirer
 function start() {
   inquirer
+    //for the first run, we know the role is manager
+    //we will get the role for the next run, prior to this being run
+    //save that in a variable that starts as manager
     .prompt(genericQuestions)
 
     .then((data) => {
+      //we can assume the first employee will be the manager
+      data["role"] = "manag123er";
+
+      console.log(data);
       //use a switch case to determine the last question
+
       askRoleSpecificQuestion(data.role);
 
       if (data.role === `I don't want more team members`) {
@@ -211,4 +222,5 @@ function start() {
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
+console.log("enter your information first");
 start();
