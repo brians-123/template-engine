@@ -43,18 +43,19 @@ const genericQuestions = [
     message: "What is the employee's email?",
     name: "email",
   },
+  //not sure if there will be an impact here due to too many arguments being passed in. I may have to rework after trying html
   {
     type: "list",
     message: "Which type of team member would you like to add next?",
     choices: ["Engineer", "Intern", "I don't want more team members"],
-    name: "role",
+    name: "nextRole",
   },
 ];
 
 //role specific questions
-function askRoleSpecificQuestion(theRole) {
+function askRoleSpecificQuestion(theNextRole) {
   // var specificQuestion = {};
-  switch (theRole) {
+  switch (theNextRole) {
     case "Manager":
       console.log("it's a manager");
       // return (specificQuestion = {
@@ -181,17 +182,18 @@ function start() {
 
     .then((data) => {
       //we can assume the first employee will be the manager
-      data["role"] = "manag123er";
+      data["role"] = role;
 
       console.log(data);
       //use a switch case to determine the last question
 
       askRoleSpecificQuestion(data.role);
 
-      if (data.role === `I don't want more team members`) {
+      if (data.nextRole === `I don't want more team members`) {
         console.log(`this is where i'll insert the render function`);
       } else {
         console.log(`this is where i'll add start()`);
+        role = data.theNextRole;
       }
       // employee = new Manager(data.name, data.id, data.email, data.officeNumber);
       // After the user has input all employees desired, call the `render` function (required
