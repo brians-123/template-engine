@@ -87,7 +87,7 @@ function askRoleSpecificQuestion(theNextRole) {
       genericQuestions[3] = {
         type: "input",
         message: "What is the employee's school?",
-        name: "email",
+        name: "school",
       };
       break;
   }
