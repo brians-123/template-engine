@@ -23,6 +23,64 @@ const employees = [];
 //   dependent on what's give, office, git, school
 // Add another?
 
+//add general questions
+const genericQuestions = [
+  {
+    type: "input",
+    message: "What is the employee's name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is employee's id?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is the employee's email?",
+    name: "email",
+  },
+  {
+    type: "list",
+    message: "Which type of team member would you like to add next?",
+    choices: ["Engineer", "Intern", "I don't want more team members"],
+    name: "role",
+  },
+];
+
+//role specific questions
+function askRoleSpecificQuestion(theRole) {
+  // var specificQuestion = {};
+  switch (theRole) {
+    case "Manager":
+      console.log("it's a manager");
+      // return (specificQuestion = {
+      //   type: "input",
+      //   message: "What is the employee's office number?",
+      //   name: "officeNumber",
+      // });
+      break;
+
+    case "Engineer":
+      console.log("it's an engineer");
+      // return (specificQuestion = {
+      //   type: "input",
+      //   message: "What is the employee's github id?",
+      //   name: "github",
+      // });
+      break;
+
+    case "Intern":
+      console.log("it's an intern");
+      // return (specificQuestion = {
+      //   type: "input",
+      //   message: "What is the employee's school?",
+      //   name: "email",
+      // });
+      break;
+  }
+}
+
 const mgrQuestions = [
   {
     type: "input",
@@ -47,7 +105,7 @@ const mgrQuestions = [
   {
     type: "list",
     message: "Which type of team member would you like to add?",
-    choices: ["Engineer", "Intern", "I don't want any team members"],
+    choices: ["Engineer", "Intern", "I don't want more team members"],
     name: "role",
   },
 ];
@@ -85,6 +143,8 @@ const engQuestions = [
 // function askInternQuestions (){
 
 // }
+//can i write a function inside the object for the last question? It seems like I can
+
 const intQuestions = [
   {
     type: "name",
@@ -109,26 +169,32 @@ const intQuestions = [
 ];
 
 //start inquirer
-inquirer
-  .prompt(mgrQuestions)
+function start() {
+  inquirer
+    .prompt(genericQuestions)
 
-  .then((data) => {
-    // console.log(data.officeNumber);
+    .then((data) => {
+      //use a switch case to determine the last question
+      askRoleSpecificQuestion(data.role);
 
-    employee = new Manager(data.name, data.id, data.email, data.officeNumber);
-    // After the user has input all employees desired, call the `render` function (required
-    // above) and pass in an array containing all employee objects; the `render` function will
-    // generate and return a block of HTML including templated divs for each employee!
-    employees.push(employee);
-    // render(employees);
-    // console.log(employees);
-    const renderStuff = render(employees);
-    fs.writeFile("team.html", renderStuff, "utf8", (err) =>
-      err
-        ? console.log(err)
-        : console.log("You have successfully generated a new team site!")
-    );
-  });
+      if (data.role === `I don't want more team members`) {
+        console.log(`this is where i'll insert the render function`);
+      } else {
+        console.log(`this is where i'll add start()`);
+      }
+      // employee = new Manager(data.name, data.id, data.email, data.officeNumber);
+      // After the user has input all employees desired, call the `render` function (required
+      // above) and pass in an array containing all employee objects; the `render` function will
+      // generate and return a block of HTML including templated divs for each employee!
+      // employees.push(employee);
+      // const renderStuff = render(employees);
+      // fs.writeFile("./output/team.html", renderStuff, "utf8", (err) =>
+      // err
+      // ? console.log(err)
+      // : console.log("You have successfully generated a new team site!")
+      // );
+    });
+}
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
@@ -144,3 +210,5 @@ inquirer
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+start();
