@@ -19,7 +19,14 @@ Jest tests were provided for this project to demonstrate test driven development
 
 An example html document generated through this application 'team.html' is contained within the output folder. When the application is run, it will overwrite the file.
 
-Here is a [demo](https://drive.google.com/file/d/1vs1ipBXnDzJ_MHrs7N2eY_ujZSpHriEF/view)
+Here is a [demo](https://drive.google.com/file/d/1uMigSGTl-S5rQqZOrXdpPYjrLXHiQINE/view)
+Here is a link to the github [repo](https://github.com/brians-123/template-engine)
+
+## User Story
+
+AS A manager
+I WANT a tool to generate a team site
+SO THAT we can have easy access to one another's contact information
 
 ## Installation <a id="installation"></a> :floppy_disk:
 
@@ -50,9 +57,8 @@ Please do not contribute to this application
 
 ## Tests <a id="tests"></a> :microscope:
 
-Jest tests were provided for this project to demonstrate test driven development. The process to compelete this project was to run the existing test classes, make changes to the employee classes to get them working, then begin on developing the app functionality.
+Jest tests have been created for each class
 
 ## Contact <a id="questions"></a> :email:
 
 [github account](https://github.com/brians-123)
-not sharing

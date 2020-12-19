@@ -110,5 +110,5 @@ function start() {
     });
 }
 
-console.log("Please enter your information first");
+console.log("Create your team! \n Please enter your information first.");
 start();
