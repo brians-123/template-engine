@@ -11,7 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 //the first role entered is assumed to be a manager
-let role = "manager";
+let role = "Manager";
 
 const employees = [];
 //Ask for manager info
@@ -43,6 +43,14 @@ const genericQuestions = [
     message: "What is the employee's email?",
     name: "email",
   },
+
+  //starting with the manager's specific question. we will replace this for subsequent questions.
+  {
+    type: "input",
+    message: "What is the employee's office number?",
+    name: "officeNumber",
+  },
+
   //not sure if there will be an impact here due to too many arguments being passed in. I may have to rework after trying html
   {
     type: "list",
@@ -56,63 +64,34 @@ const genericQuestions = [
 function askRoleSpecificQuestion(theNextRole) {
   // var specificQuestion = {};
   switch (theNextRole) {
-    case "Manager":
-      console.log("it's a manager");
-      // return (specificQuestion = {
-      //   type: "input",
-      //   message: "What is the employee's office number?",
-      //   name: "officeNumber",
-      // });
-      break;
+    // case "Manager":
+    //   console.log("it's a manager");
+    //   genericQuestions[3] = {
+    //     type: "input",
+    //     message: "What is the employee's office number?",
+    //     name: "officeNumber",
+    //   };
+    //   break;
 
     case "Engineer":
       console.log("it's an engineer");
-      // return (specificQuestion = {
-      //   type: "input",
-      //   message: "What is the employee's github id?",
-      //   name: "github",
-      // });
+      genericQuestions[3] = {
+        type: "input",
+        message: "What is the employee's github id?",
+        name: "github",
+      };
       break;
 
     case "Intern":
       console.log("it's an intern");
-      // return (specificQuestion = {
-      //   type: "input",
-      //   message: "What is the employee's school?",
-      //   name: "email",
-      // });
+      genericQuestions[3] = {
+        type: "input",
+        message: "What is the employee's school?",
+        name: "email",
+      };
       break;
   }
 }
-
-const mgrQuestions = [
-  {
-    type: "input",
-    message: "What is the manager's name?",
-    name: "name",
-  },
-  {
-    type: "input",
-    message: "What is manager's id?",
-    name: "id",
-  },
-  {
-    type: "input",
-    message: "What is the manager's email?",
-    name: "email",
-  },
-  {
-    type: "input",
-    message: "What is the manager's office number?",
-    name: "officeNumber",
-  },
-  {
-    type: "list",
-    message: "Which type of team member would you like to add?",
-    choices: ["Engineer", "Intern", "I don't want more team members"],
-    name: "role",
-  },
-];
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -122,22 +101,22 @@ const mgrQuestions = [
 // }
 const engQuestions = [
   {
-    type: "name",
+    type: "input",
     message: "What is your engineer's name?",
     name: "name",
   },
   {
-    type: "id",
+    type: "input",
     message: "What is engineer's id?",
     name: "id",
   },
   {
-    type: "email",
+    type: "input",
     message: "What is your engineer's email?",
     name: "email",
   },
   {
-    type: "role",
+    type: "input",
     message: "What is your engineer's github username?",
     name: "role",
   },
@@ -151,24 +130,24 @@ const engQuestions = [
 
 const intQuestions = [
   {
-    type: "name",
+    type: "input",
     message: "What is your intern's name?",
     name: "name",
   },
   {
-    type: "id",
+    type: "input",
     message: "What is intern's id?",
     name: "id",
   },
   {
-    type: "email",
+    type: "input",
     message: "What is your intern's email?",
     name: "email",
   },
   {
-    type: "role",
+    type: "input",
     message: "What is your intern's school?",
-    name: "role",
+    name: "school",
   },
 ];
 
@@ -187,13 +166,43 @@ function start() {
       console.log(data);
       //use a switch case to determine the last question
 
-      askRoleSpecificQuestion(data.role);
+      askRoleSpecificQuestion(data.nextRole);
+      //placeholder - this is where I removed the creation of a new employee
 
+      switch (role) {
+        case "Manager":
+          employee = new Manager(
+            data.name,
+            data.id,
+            data.email,
+            data.officeNumber
+          );
+          console.log("we made a manager");
+          break;
+        case "Engineer":
+          employee = new Engineer(data.name, data.id, data.email, data.github);
+          console.log("we made an engineer");
+          break;
+        case "Intern":
+          employee = new Intern(data.name, data.id, data.email, data.school);
+          console.log("we made an intern");
+          break;
+      }
+
+      employees.push(employee);
       if (data.nextRole === `I don't want more team members`) {
-        console.log(`this is where i'll insert the render function`);
+        const renderStuff = render(employees);
+        console.log(employees);
+        fs.writeFile("./output/team.html", renderStuff, "utf8", (err) =>
+          err
+            ? console.log(err)
+            : console.log("You have successfully generated a new team site!")
+        );
       } else {
-        console.log(`this is where i'll add start()`);
-        role = data.theNextRole;
+        console.log("here's the next role" + data.nextRole);
+        role = data.nextRole;
+        //we need to ask questions about the next employee
+        start();
       }
       // employee = new Manager(data.name, data.id, data.email, data.officeNumber);
       // After the user has input all employees desired, call the `render` function (required
@@ -224,5 +233,5 @@ function start() {
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-console.log("enter your information first");
+console.log("Please enter your information first");
 start();
